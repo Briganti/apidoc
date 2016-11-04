@@ -142,4 +142,4 @@ var wsMainExtend = new function() {
 
         return _return;
     }
-}; 
+};  
