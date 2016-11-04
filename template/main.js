@@ -47,7 +47,8 @@ require([
     'semver',
     'webfontloader',
     'bootstrap',
-    'pathToRegexp'
+    'pathToRegexp',
+    './main_extend.js'
 ], function($, _, locale, Handlebars, apiProject, apiData, prettyPrint, sampleRequest, semver, WebFont) {
 
     // load google web fonts
@@ -66,6 +67,9 @@ require([
     var templateProject        = Handlebars.compile( $('#template-project').html() );
     var templateSections       = Handlebars.compile( $('#template-sections').html() );
     var templateSidenav        = Handlebars.compile( $('#template-sidenav').html() );
+
+    wsMainExtend.init(Handlebars);
+    api = wsMainExtend.processApiData(api);
 
     //
     // apiProject defaults
@@ -221,6 +225,10 @@ require([
         });
     }
 
+    if ( typeof wsMainExtend != 'undefined') {
+        nav = wsMainExtend.processNav(nav);
+    }
+
     // render pagetitle
     var title = apiProject.title ? apiProject.title : 'apiDoc: ' + apiProject.name + ' - ' + apiProject.version;
     $(document).attr('title', title);
@@ -230,7 +238,8 @@ require([
 
     // render sidenav
     var fields = {
-        nav: nav
+        nav: nav,
+        api: apiProject
     };
     $('#sidenav').append( templateSidenav(fields) );
 
@@ -299,8 +308,12 @@ require([
                 if (entry.groupDescription)
                     description = entry.groupDescription;
 
+                if ( typeof wsMainExtend != 'undefined') {
+                    entry = wsMainExtend.processEntry(entry);
+                }
+
                 articles.push({
-                    article: templateArticle(fields),
+                    article: wsMainExtend.renderArticle(entry.group, fields),
                     group: entry.group,
                     name: entry.name
                 });
@@ -552,7 +565,7 @@ require([
             if (fields._hasTypeInInfoFields !== true && entry.info && entry.info.fields)
                 fields._hasTypeInInfoFields = _hasTypeInFields(entry.info.fields);
 
-            var content = templateCompareArticle(fields);
+            var content = wsMainExtend.renderCompareArticle(entry.group, fields);
             $root.after(content);
             var $content = $root.next();
 
@@ -675,7 +688,7 @@ require([
 
         addArticleSettings(fields, entry);
 
-        return templateArticle(fields);
+        return wsMainExtend.renderArticle(entry.group, fields);
     }
 
     /**

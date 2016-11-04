@@ -1,0 +1,41 @@
+.sidenav > li.nav-header > a {
+    color: #000;
+    
+}
+.sidenav > li.nav-header.active > a,
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+    background: #F3DC10;
+}
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+    color: #000;
+}
+
+.sidenav > li > a {
+    color: #000;
+}
+
+.sidenav {
+    top: 100px;
+}
+#scrollingNav_header {
+    width: 268px;
+    height: 100px;
+    background: #F3DC10;
+    position: fixed;
+    top: 0; left: 0;
+}
+#scrollingNav_header table {
+    width: 98%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 0;
+    margin-top: 6px;
+}
+#scrollingNav_header table td {
+    border: 0;
+}
+#scrollingNav_header .project_name {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: bottom;
+}
