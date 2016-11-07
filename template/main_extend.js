@@ -36,6 +36,9 @@ var wsMainExtend = new function() {
             if (item.group == 'DataTypes') {
                 _dataTypes.push(item);
             } else {
+                // Titlurile sunt ordonate alfabetica, eliminam numerele daca sunt
+                item.title = item.title.replace(/[0-9]+\s+/, '');
+
                 _nav.push(item);
             }
         });
@@ -48,9 +51,6 @@ var wsMainExtend = new function() {
             } else {
                 item.title = item.name;
             }
-
-            // Titlurile sunt ordonate alfabetica, eliminam numerele daca sunt
-            item.title = item.title.replace(/[0-9]+\s+/, '');
         });
 
         // Readaugam la sfarsit
