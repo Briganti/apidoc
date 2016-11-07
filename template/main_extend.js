@@ -58,10 +58,20 @@ var wsMainExtend = new function() {
 
     this.processEntry = function(entry)
     {
-        console.log(entry);
         if (entry.group == 'DataTypes') {
             entry.title = entry.name;
+        } else {
+            // Titlurile sunt ordonate, eliminam numerele daca sunt
+            entry.title = entry.title.replace(/[0-9]+\s+/, '');
         }
+
+        // In group title spatiile se suprascrie cu _ ...
+        if (entry.groupTitle.length > 0) {
+            var gtRegex = new RegExp('_+', 'g');
+            entry.groupTitle = entry.groupTitle.replace(gtRegex, '');
+        }
+
+
 
         return entry;
     };
