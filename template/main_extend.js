@@ -48,6 +48,9 @@ var wsMainExtend = new function() {
             } else {
                 item.title = item.name;
             }
+
+            // Titlurile sunt ordonate alfabetica, eliminam numerele daca sunt
+            item.title = item.title.replace(/[0-9]+\s+/, '');
         });
 
         // Readaugam la sfarsit
@@ -61,14 +64,14 @@ var wsMainExtend = new function() {
         if (entry.group == 'DataTypes') {
             entry.title = entry.name;
         } else {
-            // Titlurile sunt ordonate, eliminam numerele daca sunt
+            // Titlurile sunt ordonate alfabetica, eliminam numerele daca sunt
             entry.title = entry.title.replace(/[0-9]+\s+/, '');
         }
 
         // In group title spatiile se suprascrie cu _ ...
         if (entry.groupTitle.length > 0) {
             var gtRegex = new RegExp('_+', 'g');
-            entry.groupTitle = entry.groupTitle.replace(gtRegex, '');
+            entry.groupTitle = entry.groupTitle.replace(gtRegex, ' ');
         }
 
 
