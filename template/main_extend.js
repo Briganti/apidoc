@@ -29,12 +29,15 @@ var wsMainExtend = new function() {
     this.processNav = function(nav)
     {
         var _nav = [];
-        var _dataTypes = []
+        var _dataTypes = [];
+        var _nomenclatoare = [];
 
         // Extragem dataTypes -urile
         $.each(nav, function(idx, item){
             if (item.group == 'DataTypes') {
                 _dataTypes.push(item);
+            } else if (item.group == 'Nomenclatoare') {
+                _nomenclatoare.push(item);
             } else {
                 // Titlurile sunt ordonate alfabetica, eliminam numerele daca sunt
                 item.title = item.title.replace(/[0-9]+\s+/, '');
@@ -43,18 +46,25 @@ var wsMainExtend = new function() {
             }
         });
 
+        if (_nomenclatoare.length > 0) {
+            // Readaugam la sfarsit
+            Array.prototype.push.apply(_nav, _nomenclatoare);
+        }
+
         // Prelucram dataTypes-urile
-        $.each(_dataTypes, function(idx, item){
+        if (_dataTypes.length > 0) {
+            $.each(_dataTypes, function(idx, item){
 
-            if (item.isHeader) {
-                item.title = "Tipuri de date";
-            } else {
-                item.title = item.name;
-            }
-        });
+                if (item.isHeader) {
+                    item.title = "Tipuri de date";
+                } else {
+                    item.title = item.name;
+                }
+            });
 
-        // Readaugam la sfarsit
-        Array.prototype.push.apply(_nav, _dataTypes);
+            // Readaugam la sfarsit
+            Array.prototype.push.apply(_nav, _dataTypes);
+        }
 
         return _nav;
     };
@@ -101,6 +111,33 @@ var wsMainExtend = new function() {
         var templateArticleDataType= _Handlebars.compile( $('#template-compare-article-data-type').html() );
 
         return (group == 'DataTypes') ? templateArticleDataType(fields) : templateArticle(fields);
+    };
+
+    this.processApiGroups = function(apiGroups)
+    {
+        var _apiGroups = [];
+        var _dataTypes = false;
+        var _nomenclatoare = false;
+
+        for (var i in apiGroups) {
+            if (apiGroups[i] == 'DataTypes') {
+                _dataTypes = 'DataTypes';
+            } else if (apiGroups[i] == 'Nomenclatoare') {
+                _nomenclatoare = 'Nomenclatoare';
+            } else {
+                _apiGroups.push(apiGroups[i]);
+            }
+        }
+
+        if (_nomenclatoare !== false) {
+            _apiGroups.push(_nomenclatoare);
+        }
+        if (_dataTypes !== false) {
+            _apiGroups.push(_dataTypes);
+        }
+
+        console.log(_apiGroups);
+        return _apiGroups;
     };
 
     function orderParameters(params) {

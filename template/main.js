@@ -161,6 +161,9 @@ require([
     if (apiProject.order)
         apiGroups = sortByOrder(apiGroups, apiProject.order);
 
+    // extended custom order
+    apiGroups = wsMainExtend.processApiGroups(apiGroups);
+
     // sort versions DESC
     apiVersions = Object.keys(apiVersions);
     apiVersions.sort(semver.compare);
